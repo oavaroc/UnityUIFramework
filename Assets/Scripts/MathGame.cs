@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class MathGame : MonoBehaviour
+public class MathGame : PlayableGame
 {
     private enum op
     {
@@ -21,22 +21,14 @@ public class MathGame : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _operator;
     [SerializeField]
-    private TextMeshProUGUI _output;
-    [SerializeField]
-    private TextMeshProUGUI _timer;
-    [SerializeField]
-    private float _countdownDuration = 180f;
-    private float _currentTime;
+    private Score _scoreText;
 
-    private Coroutine _gameLoop;
     private int _answer;
     private int _score = 0;
     void Start()
     {
         NewGame();
-        _currentTime = _countdownDuration;
-        UpdateTimerDisplay(_currentTime);
-        _gameLoop = StartCoroutine(StartTimer());
+        _score = 0;
     }
 
 
@@ -69,8 +61,7 @@ public class MathGame : MonoBehaviour
         {
             if (_answer == result)
             {
-                _score++;
-                _output.text = "Score: " + _score;
+                _scoreText.UpdateScore(++_score);
                 NewGame();
             }
             else
@@ -141,32 +132,9 @@ public class MathGame : MonoBehaviour
 
     }
 
-    private IEnumerator StartTimer()
-    {
-        Debug.Log("Timer starting!");
-        // Countdown loop
-        while (_currentTime > 0f)
-        {
-            // Wait for 1 second
-            yield return new WaitForSeconds(1f);
-            UpdateTimerDisplay(--_currentTime);
-        }
-
-        // Timer has reached 0, handle game over 
-        HandleGameOver();
-    }
-
-    private void HandleGameOver()
+    public override void HandleGameOver()
     {
         Debug.Log("Game Over!");
         _input.gameObject.SetActive(false);
-        StopCoroutine(_gameLoop);
-    }
-    public void UpdateTimerDisplay(float currentTime)
-    {
-        // Format the time as minutes:seconds
-        int minutes = Mathf.FloorToInt(currentTime / 60f);
-        int seconds = Mathf.FloorToInt(currentTime % 60f);
-        _timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }
