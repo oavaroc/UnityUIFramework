@@ -25,9 +25,11 @@ public class MathGame : PlayableGame
 
     private int _answer;
     private int _score = 0;
+    private List<GameObject> test = new List<GameObject>();
     void Start()
     {
         NewGame();
+        
         _score = 0;
     }
 
