@@ -72,6 +72,7 @@ public class MatchGame : PlayableGame
 
     public void CheckSelected(Toggle compareMe)
     {
+        AudioManager.Instance.PlayMatchItemFlipped();
         if (_selectedToggle == null)
         {
             _selectedToggle = compareMe;
@@ -118,6 +119,7 @@ public class MatchGame : PlayableGame
     private void Correct(Toggle selectedToggle, Toggle compareMe)
     {
         Debug.Log("Right");
+        AudioManager.Instance.PlayMatchItemRight();
         selectedToggle.interactable = false;
         compareMe.interactable = false;
         AddScore();
@@ -126,6 +128,7 @@ public class MatchGame : PlayableGame
     private void Wrong(Toggle selectedToggle, Toggle compareMe)
     {
         Debug.Log("Wrong");
+        AudioManager.Instance.PlayMatchItemWrong();
         selectedToggle.interactable = false;
         compareMe.interactable = false;
         StartCoroutine(WrongRoutine(selectedToggle,compareMe));

@@ -39,4 +39,8 @@ MonoBehaviour:
     text: Image by <a href="https://www.freepik.com/free-vector/realistic-ice-texture-illustration_22900014.htm#query=ice%20background&position=11&from_view=search&track=ais">Freepik</a>
     linkText:
     url:
+  - heading: attributions
+    text: <a href="https://www.freepik.com/free-vector/cartoon-ice-ui-design-set_21757962.htm#query=gui%20kids&position=8&from_view=search&track=ais">Image by pikisuperstar</a> on Freepik
+    linkText:
+    url:
   loadedLayout: 1

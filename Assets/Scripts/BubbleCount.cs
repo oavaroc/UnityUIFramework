@@ -47,6 +47,7 @@ public class BubbleCount : PlayableGame
     {
         if (clickedValue == _currentCount)
         {
+            AudioManager.Instance.PlayBubbleRight();
             _currentCount++;
             _scoreText.UpdateScore(++_score);
             // Value matches, destroy the bubble button
@@ -58,6 +59,7 @@ public class BubbleCount : PlayableGame
         }
         else
         {
+            AudioManager.Instance.PlayBubbleWrong();
             // Value doesn't match, handle accordingly
             Debug.Log("Value doesn't match.");
         }

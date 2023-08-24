@@ -55,7 +55,7 @@ public class MathGame : PlayableGame
 
         }
         Debug.Log("Answer is: " + _answer);
-        _input.Select();
+        _input.ActivateInputField();
     }
 
     public void CheckAnswer()
@@ -65,10 +65,12 @@ public class MathGame : PlayableGame
             if (_answer == result)
             {
                 _scoreText.UpdateScore(++_score);
+                AudioManager.Instance.PlayMathCorrect();
                 NewGame();
             }
             else
             {
+                AudioManager.Instance.PlayMathWrong();
                 //_output.text = "Incorrect, correct answer is : " + _answer;
                 NewGame();
             }
