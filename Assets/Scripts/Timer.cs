@@ -16,17 +16,18 @@ public class Timer : MonoBehaviour
 
     private float _currentTime;
     private Coroutine _gameLoop;
+    /* Summary: Starts the timer for the game
+     * 
+     */
     private void Start()
     {
         _currentTime = _timerDuration;
         _gameLoop = StartCoroutine(StartTimer());
     }
 
-    private void HandleTimerFinished()
-    {
-        _game.HandleGameOver();
-        StopCoroutine(_gameLoop);
-    }
+    /* Summary: Starts counting down the gimer and updates the timer display
+     * 
+     */
     private IEnumerator StartTimer()
     {
         Debug.Log("Timer starting!");
@@ -42,6 +43,21 @@ public class Timer : MonoBehaviour
         HandleTimerFinished();
     }
 
+    /* Summary: Stops the game loop and calls the gameover function for the current game
+     * 
+     */
+    private void HandleTimerFinished()
+    {
+        _game.HandleGameOver();
+        StopCoroutine(_gameLoop);
+    }
+
+    /* Summary: converts seconds left to mm:ss format and displays it on the timer
+     * 
+     * Parameters: 
+     * currentTime : the current time left on the timer in seconds
+     * 
+     */
     public void UpdateTimerDisplay(float currentTime)
     {
         // Format the time as minutes:seconds

@@ -21,12 +21,27 @@ public class BouncingButton : MonoBehaviour
     // Define the event for bubble creation
     public static UnityEvent<BouncingButton> onBubbleCreated = new UnityEvent<BouncingButton>();
 
+    /* Summary: gets the rigidbody of the bouncing button when initialized
+     * 
+     */
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
 
         _rb.velocity = GetRandomDirection() * _speed;
     }
+    /* Summary: Returns a random direction for the ball to go
+     * 
+     * returns:
+     * Vector2 : random direction in a normalized vector2
+     */
+    private Vector2 GetRandomDirection()
+    {
+        return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+    }
+    /* Summary: keeps the speed up so it does not move slower over time, keeps track of the last velocity for when bouncing
+     * 
+     */
     private void Update()
     {
         if(_rb.velocity.magnitude < _speed)
@@ -37,6 +52,9 @@ public class BouncingButton : MonoBehaviour
     }
 
 
+    /* Summary: Sets the on bubble clicked event when bubble is created
+     * 
+     */
     private void Awake()
     {
         if (onBubbleClicked == null)
@@ -47,15 +65,20 @@ public class BouncingButton : MonoBehaviour
         onBubbleCreated.Invoke(this);
     }
 
+    /* Summary: invokes on clicked when button is clicked
+     * 
+     */
     public void OnClick()
     {
         onBubbleClicked.Invoke(_bubbleValue);
     }
-    private Vector2 GetRandomDirection()
-    {
-        return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-    }
 
+    /* Summary: Handles collision with other objects and the reflections
+     * 
+     * parameters:
+     * collision : collision information
+     * 
+     */
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (_rb != null)
@@ -67,6 +90,12 @@ public class BouncingButton : MonoBehaviour
         }
     }
 
+    /* Summary: Sets the number for this button
+     * 
+     * parameters:
+     * number : the number for the button
+     * 
+     */
     public void SetNumber(int number)
     {
         _bubbleValue = number;

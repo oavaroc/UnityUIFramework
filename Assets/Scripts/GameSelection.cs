@@ -22,6 +22,9 @@ public class GameSelection : MonoBehaviour
     [SerializeField]
     private Results _resultScreen;
 
+    /* Summary: Loads the math game from the game select screen
+     * 
+     */
     public void LoadMathGame()
     {
         if(Instantiate(_mathGame, _mathGameLocation.position, Quaternion.identity, _gameParent).TryGetComponent(out MathGame mathgame))
@@ -29,6 +32,9 @@ public class GameSelection : MonoBehaviour
             mathgame.SetResults(_resultScreen);
         }
     }
+    /* Summary: Loads the bubble game from game select screen
+     * 
+     */
     public void LoadBubbleGame()
     {
         if(Instantiate(_bubbleCount, _bubbleGameLocation.position, Quaternion.identity, _gameParent).TryGetComponent(out BubbleCount bubbleCount))
@@ -37,6 +43,9 @@ public class GameSelection : MonoBehaviour
         }
 
     }
+    /* Summary: Loads memory game from game selecty screen
+     * 
+     */
     public void LoadMemoryGame()
     {
         if(Instantiate(_memoryGame, _memoryGameLocation.position, Quaternion.identity, _gameParent).TryGetComponent(out MatchGame matchGame))

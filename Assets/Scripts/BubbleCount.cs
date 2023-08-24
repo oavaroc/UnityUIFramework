@@ -19,30 +19,92 @@ public class BubbleCount : PlayableGame
     [SerializeField]
     private Score _scoreText;
     private int _score = 0;
+
+    /* Summary: Starts the bubbles spawning and initializes score
+     * 
+     */
     private void Start()
     {
         _gameLoop= StartCoroutine(SpawnBubblesRoutine());
         _score = 0;
     }
+    /* Summary: Starts spawning bubbles every second to try and maintain 10 bubbles
+     * 
+     */
+    IEnumerator SpawnBubblesRoutine()
+    {
+        while (true)
+        {
+            while(_bubbleParent.childCount < 10)
+            {
+                // Calculate random position within the spawn area
+                Vector3 randomPosition = GetRandomPosition();
+                Debug.Log("randomPosition: "+randomPosition);
+                // Instantiate the object at the random position
+               
+                if (Instantiate(_bubble, randomPosition, Quaternion.identity, _bubbleParent).TryGetComponent(out BouncingButton bouncingButton))
+                {
+                    bouncingButton.SetNumber(_nextNumber++);
+                }
 
+            }
+            yield return new WaitForSeconds(1f);
+
+        }
+    }
+
+    /* Summary: gets a random position within a small area in the center
+     * 
+     */
+    private Vector3 GetRandomPosition()
+    {
+        // Get collider's bounds
+        Bounds bounds = _spawnAreaCollider.bounds;
+        Debug.Log("bounds: " + bounds);
+
+        // Calculate random position within the bounds
+        float randomX = Random.Range(bounds.min.x, bounds.max.x);
+        float randomY = Random.Range(bounds.min.y, bounds.max.y);
+        float randomZ = Random.Range(bounds.min.z, bounds.max.z);
+
+        // Return the calculated random position
+        return new Vector3(randomX, randomY, randomZ);
+    }
+
+    /* Summary: when a bubble is created, it subscribes to this event
+     * 
+     */
     private void OnEnable()
     {
         // Subscribe to the onBubbleCreated event
         BouncingButton.onBubbleCreated.AddListener(SubscribeToBubbleEvent);
     }
 
+    /* Summary: when a bubble is disabled, unsubscribes to the event
+     * 
+     */
     private void OnDisable()
     {
         // Unsubscribe when this script is disabled
         BouncingButton.onBubbleCreated.RemoveListener(SubscribeToBubbleEvent);
     }
 
+    /* Summary: subscribes the new bubble to the event
+     * 
+     * parameters:
+     * bubble : the new bubble created
+     */
     private void SubscribeToBubbleEvent(BouncingButton bubble)
     {
         // Subscribe to the bubble click event for the newly instantiated bubble
         bubble.onBubbleClicked.AddListener(CheckBubbleValue);
     }
 
+    /* Summary: checks the bubble when clicked to the current count, if match, bubble is destroyed, else it stays
+     * 
+     * parameters:
+     * clickedValue : value of the bubble clicked
+     */
     private void CheckBubbleValue(int clickedValue)
     {
         if (clickedValue == _currentCount)
@@ -65,43 +127,10 @@ public class BubbleCount : PlayableGame
         }
     }
 
-    IEnumerator SpawnBubblesRoutine()
-    {
-        while (true)
-        {
-            while(_bubbleParent.childCount < 10)
-            {
-                // Calculate random position within the spawn area
-                Vector3 randomPosition = GetRandomPosition();
-                Debug.Log("randomPosition: "+randomPosition);
-                // Instantiate the object at the random position
-                //Instantiate(objectToInstantiate, randomPosition, Quaternion.identity);
-            //}
-                if (Instantiate(_bubble, randomPosition, Quaternion.identity, _bubbleParent).TryGetComponent(out BouncingButton bouncingButton))
-                {
-                    bouncingButton.SetNumber(_nextNumber++);
-                }
 
-            }
-            yield return new WaitForSeconds(1f);
-
-        }
-    }
-    private Vector3 GetRandomPosition()
-    {
-        // Get collider's bounds
-        Bounds bounds = _spawnAreaCollider.bounds;
-        Debug.Log("bounds: " + bounds);
-
-        // Calculate random position within the bounds
-        float randomX = Random.Range(bounds.min.x, bounds.max.x);
-        float randomY = Random.Range(bounds.min.y, bounds.max.y);
-        float randomZ = Random.Range(bounds.min.z, bounds.max.z);
-
-        // Return the calculated random position
-        return new Vector3(randomX, randomY, randomZ);
-    }
-
+    /* Summary: destroys the buttons and stops spawning then loads the results screen
+     * 
+     */
     public override void HandleGameOver()
     {
         Debug.Log("Game Over");

@@ -27,6 +27,9 @@ public class MathGame : PlayableGame
     private int _answer;
     private int _score = 0;
     private List<GameObject> test = new List<GameObject>();
+    /* Summary: Starts a new math game and initializes the score to 0
+     * 
+     */
     void Start()
     {
         NewGame();
@@ -35,6 +38,9 @@ public class MathGame : PlayableGame
     }
 
 
+    /* Summary: Determines a mathematical operator to create a problem for, then sets the input field to active
+     * 
+     */
     public void NewGame()
     {
         _input.text = "";
@@ -58,42 +64,16 @@ public class MathGame : PlayableGame
         _input.ActivateInputField();
     }
 
-    public void CheckAnswer()
-    {
-        if (int.TryParse(_input.text, out int result))
-        {
-            if (_answer == result)
-            {
-                _scoreText.UpdateScore(++_score);
-                AudioManager.Instance.PlayMathCorrect();
-                NewGame();
-            }
-            else
-            {
-                AudioManager.Instance.PlayMathWrong();
-                //_output.text = "Incorrect, correct answer is : " + _answer;
-                NewGame();
-            }
-
-        }
-        else
-        {
-            //_output.text = "Please enter a number.";
-
-        }
-        //_input.Select();
-    }
-
+    /* Summary: returns a random operator
+     * 
+     */
     private op RandomOperator()
     {
         return (op)Random.Range(0, 4);
     }
-
-    private int RandomNumber()
-    {
-        return Random.Range(1, 99);
-    }
-
+    /* Summary: Creates a random addition math problem using random numbers
+     * 
+     */
     private void CreateAddition()
     {
         _operator.text = "+";
@@ -103,6 +83,9 @@ public class MathGame : PlayableGame
         _number1.text = num1.ToString();
         _answer = num1 + num2; // Update the answer
     }
+    /* Summary: Creates a random division math problem using random numbers
+     * 
+     */
     private void CreateDivision()
     {
         _operator.text = "/";
@@ -116,6 +99,9 @@ public class MathGame : PlayableGame
         _answer = answer; // Update the answer
 
     }
+    /* Summary: Creates a random subtraction math problem using random numbers
+     * 
+     */
     private void CreateSubtraction()
     {
         _operator.text = "-";
@@ -126,6 +112,9 @@ public class MathGame : PlayableGame
         _answer = num1 - num2; // Update the answer
 
     }
+    /* Summary: Creates a random multiplication math problem using random numbers
+     * 
+     */
     private void CreateMultiply()
     {
         _operator.text = "*";
@@ -136,7 +125,40 @@ public class MathGame : PlayableGame
         _answer = num1 * num2; // Update the answer
 
     }
+    /* Summary: generates a random number between 1 and 99
+     * 
+     * returns:
+     * int : random number from 1 to 99
+     */
+    private int RandomNumber()
+    {
+        return Random.Range(1, 99);
+    }
+    /* Summary: run when the player submits via input field. Checks the answer given with what it should be
+     * 
+     */
+    public void CheckAnswer()
+    {
+        if (int.TryParse(_input.text, out int result))
+        {
+            if (_answer == result)
+            {
+                _scoreText.UpdateScore(++_score);
+                AudioManager.Instance.PlayMathCorrect();
+                NewGame();
+            }
+            else
+            {
+                AudioManager.Instance.PlayMathWrong();
+                NewGame();
+            }
 
+        }
+    }
+
+    /* Summary: Disables the input field and loads the results screen
+     * 
+     */
     public override void HandleGameOver()
     {
         Debug.Log("Game Over!");

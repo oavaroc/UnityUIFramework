@@ -23,6 +23,9 @@ public class SaveManager : MonoSingleton<SaveManager>
         LoadProfiles();
     }
 
+    /* Summary: Load the data for each profile
+     * 
+     */
     private void LoadProfiles()
     {
         // Load profile data from PlayerPrefs
@@ -32,6 +35,9 @@ public class SaveManager : MonoSingleton<SaveManager>
         }
     }
 
+    /* Summary: Load the data for each game in the profile
+     * 
+     */
     private void LoadProfileData(Profile profile)
     {
         // Load high scores for each game from PlayerPrefs
@@ -42,10 +48,21 @@ public class SaveManager : MonoSingleton<SaveManager>
         }
     }
 
+    /* Summary: Called by the button on profile select screen to select the profile
+     * 
+     * Parameters: 
+     * profile : the profile index that was chosen
+     */
     public void SelectProfile(int profile)
     {
         selectedProfile = (Profile)profile;
     }
+    /* Summary: Determines if the score is a high score and saves it if necessary
+     * 
+     * Parameters: 
+     * game : the game that was completed
+     * score : the score that was obtained
+     */
     public void SaveHighScore(Game game, int score)
     {
 
@@ -77,12 +94,20 @@ public class SaveManager : MonoSingleton<SaveManager>
         }
     }
 
+    /* Summary: Loads the game high score
+     * 
+     * Parameters: 
+     * game : the game that was completed
+     * 
+     * returns:
+     * int : the players high score
+     */
     public int LoadGameHighScore(Game game)
     {
         return PlayerPrefs.GetInt($"{selectedProfile}_{game}_HighScore");
     }
 
-
+    //Deprecated
     public int LoadHighScore(Profile profile, Game game)
     {
         if (_profiles.ContainsKey(profile) && _profiles[profile].ContainsKey(game))
@@ -96,6 +121,13 @@ public class SaveManager : MonoSingleton<SaveManager>
         }
     }
 
+    /* Summary: Sets the high score for a game
+     * 
+     * Parameters: 
+     * profile : the profile that is loaded
+     * game : the game that was completed
+     * score : the score that was obtained
+     */
     private void SetHighScore(Profile profile, Game game, int score)
     {
         if (!_profiles.ContainsKey(profile))

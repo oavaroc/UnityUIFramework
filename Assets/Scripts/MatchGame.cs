@@ -22,6 +22,11 @@ public class MatchGame : PlayableGame
     private bool gameOver = false;
 
 
+    /* Summary: instantiated the match items for how many were serialized by count
+     *          initializes the fruit id and the sprite
+     *          keeps a list of match items by toggle
+     *          
+     */
     private void Start()
     {
         _matchObjects = new List<Toggle>();
@@ -40,6 +45,9 @@ public class MatchGame : PlayableGame
         }
         RandomizeItems();
     }
+
+    /* Summary: Randomize the order of the items with the fisher-yates shuffle
+     */
     private void RandomizeItems()
     {
         
@@ -70,6 +78,11 @@ public class MatchGame : PlayableGame
     }
 
 
+    /* Summary: determines if the selected toggle is the first of the pair of selects, if second, it will continue, if first, it will be saved
+     * 
+     * Parameters: 
+     * compareMe : the toggle that is selected just now
+     */
     public void CheckSelected(Toggle compareMe)
     {
         AudioManager.Instance.PlayMatchItemFlipped();
@@ -83,6 +96,14 @@ public class MatchGame : PlayableGame
         }
     }
 
+    /* Summary: compares the second click with the first click by comparing the enum on the Match Item
+     *          if the second click is the first item that was clicked, it is unselected and proceeds no further
+     *          if paired, runs correct method
+     *          if wrong, runs wrong method
+     * 
+     * Parameters: 
+     * compareMe : the toggle that is selectred just now
+     */
     private void CompareSelected(Toggle compareMe)
     {
 
@@ -116,6 +137,12 @@ public class MatchGame : PlayableGame
         }
     }
 
+    /* Summary: handles the correct pairing of items
+     * 
+     * Parameters: 
+     * selectredToggle : the toggle that was clicked first
+     * compareMe : the toggle that was clicked second
+     */
     private void Correct(Toggle selectedToggle, Toggle compareMe)
     {
         Debug.Log("Right");
@@ -125,6 +152,13 @@ public class MatchGame : PlayableGame
         AddScore();
 
     }
+
+    /* Summary: Handles the wrong pairing of items
+     * 
+     * Parameters: 
+     * selectedToggle : the toggle that was clicked first
+     * compareMe : the toggle that was clicked second
+     */
     private void Wrong(Toggle selectedToggle, Toggle compareMe)
     {
         Debug.Log("Wrong");
@@ -135,6 +169,12 @@ public class MatchGame : PlayableGame
 
     }
 
+    /* Summary: Delays the hiding of the wrong pair to show what was there
+     * 
+     * Parameters: 
+     * selectedToggle : the first toggle selected
+     * compareMe : the second toggle selected
+     */
     IEnumerator WrongRoutine(Toggle selectedToggle, Toggle compareMe)
     {
         yield return new WaitForSeconds(1f);
@@ -148,10 +188,16 @@ public class MatchGame : PlayableGame
         }
     }
 
+    /* Summary: Adds the score
+     * 
+     */
     public void AddScore()
     {
         _scoreText.UpdateScore(++_score);
     }
+    /* Summary: disables all buttons and stops coroutines, loads the results screen
+     * 
+     */
     public override void HandleGameOver()
     {
         gameOver = true;
