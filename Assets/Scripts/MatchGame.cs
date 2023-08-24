@@ -150,7 +150,6 @@ public class MatchGame : PlayableGame
         selectedToggle.interactable = false;
         compareMe.interactable = false;
         AddScore();
-
     }
 
     /* Summary: Handles the wrong pairing of items
@@ -194,6 +193,10 @@ public class MatchGame : PlayableGame
     public void AddScore()
     {
         _scoreText.UpdateScore(++_score);
+        if(_score == _matchCount)
+        {
+            HandleGameOver(); // matched all items for the count, you win
+        }
     }
     /* Summary: disables all buttons and stops coroutines, loads the results screen
      * 
