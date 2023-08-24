@@ -102,6 +102,8 @@ public class MatchGame : PlayableGame
 
                 if (item.GetFruit().Equals(itemCompare.GetFruit()))
                 {
+                    item.RemoveOnClick();
+                    itemCompare.RemoveOnClick();
                     Correct(_selectedToggle,compareMe);
                 }
                 else

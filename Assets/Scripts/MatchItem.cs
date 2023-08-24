@@ -50,11 +50,12 @@ public class MatchItem : MonoBehaviour
     private Toggle toggle;
     private MatchGame _matchGame;
 
+    private EventTrigger.Entry eventEntry = new EventTrigger.Entry();
+
     private void Start()
     {
         _matchGame = FindObjectOfType<MatchGame>();
 
-        EventTrigger.Entry eventEntry = new EventTrigger.Entry();
         eventEntry.eventID = EventTriggerType.PointerClick;
         
         eventEntry.callback.AddListener(x => _matchGame.CheckSelected(toggle));
@@ -68,6 +69,11 @@ public class MatchItem : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(1f, 2f));
         toggle.isOn = false;
+    }
+
+    public void RemoveOnClick()
+    {
+        eventTrigger.triggers.Remove(eventEntry);
     }
 
     public FRUITS GetFruit()
