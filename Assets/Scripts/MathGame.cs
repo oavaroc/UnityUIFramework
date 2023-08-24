@@ -23,6 +23,7 @@ public class MathGame : PlayableGame
     [SerializeField]
     private Score _scoreText;
 
+
     private int _answer;
     private int _score = 0;
     private List<GameObject> test = new List<GameObject>();
@@ -138,5 +139,9 @@ public class MathGame : PlayableGame
     {
         Debug.Log("Game Over!");
         _input.gameObject.SetActive(false);
+        SaveManager.Instance.SaveHighScore(SaveManager.Game.MathGame, _score);
+        _results.UpdateResults(SaveManager.Game.MathGame, _score);
+        _results.gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

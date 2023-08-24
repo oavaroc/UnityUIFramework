@@ -108,5 +108,9 @@ public class BubbleCount : PlayableGame
         {
             Destroy(button.gameObject);
         }
+        SaveManager.Instance.SaveHighScore(SaveManager.Game.BubbleGame, _score);
+        _results.UpdateResults(SaveManager.Game.BubbleGame, _score);
+        _results.gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

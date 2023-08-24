@@ -153,5 +153,9 @@ public class MatchGame : PlayableGame
         StopAllCoroutines();
         _matchObjects.ForEach(x => { x.interactable = false; x.isOn = true; });
         Debug.Log("Game Over");
+        SaveManager.Instance.SaveHighScore(SaveManager.Game.MemoryGame, _score);
+        _results.UpdateResults(SaveManager.Game.MemoryGame, _score);
+        _results.gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
